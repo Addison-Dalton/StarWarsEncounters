@@ -1,0 +1,50 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Migrations\20180312192107_TestMigration.cs" />
+    <Compile Remove="Migrations\20180312192107_TestMigration.Designer.cs" />
+    <Compile Remove="Migrations\20180312192430_TestMigration.cs" />
+    <Compile Remove="Migrations\20180312192430_TestMigration.Designer.cs" />
+    <Compile Remove="Migrations\20180312195324_RemoveIniativeIndexFromCharacter.cs" />
+    <Compile Remove="Migrations\20180312195324_RemoveIniativeIndexFromCharacter.Designer.cs" />
+    <Compile Remove="Migrations\20180315201845_test.cs" />
+    <Compile Remove="Migrations\20180315201845_test.Designer.cs" />
+    <Compile Remove="Migrations\20180315224846_AddListofCharacterToEncounter.cs" />
+    <Compile Remove="Migrations\20180315224846_AddListofCharacterToEncounter.Designer.cs" />
+    <Compile Remove="Migrations\20180315230601_test.cs" />
+    <Compile Remove="Migrations\20180315230601_test.Designer.cs" />
+    <Compile Remove="Migrations\20180315232135_test.cs" />
+    <Compile Remove="Migrations\20180315232135_test.Designer.cs" />
+    <Compile Remove="Migrations\20180316231140_test.cs" />
+    <Compile Remove="Migrations\20180316231140_test.Designer.cs" />
+    <Compile Remove="Migrations\20180319201358_test.cs" />
+    <Compile Remove="Migrations\20180319201358_test.Designer.cs" />
+    <Compile Remove="Migrations\20180319202142_test.cs" />
+    <Compile Remove="Migrations\20180319202142_test.Designer.cs" />
+    <Compile Remove="Migrations\20180323175036_test.cs" />
+    <Compile Remove="Migrations\20180323175036_test.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="EntityFramework" Version="6.2.0" />
+    <PackageReference Include="FontAwesome" Version="4.7.0" />
+    <PackageReference Include="jQuery.Validation" Version="1.17.0" />
+    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.5" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.0.1" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Migrations\" />
+    <Folder Include="wwwroot\lib\jquery-ajax-unobtrusive\" />
+  </ItemGroup>
+
+</Project>

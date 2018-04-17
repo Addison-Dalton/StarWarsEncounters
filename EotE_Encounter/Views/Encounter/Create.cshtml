@@ -1,0 +1,15 @@
+﻿@model EotE_Encounter.Models.Encounter
+<h3>Add an Encounter</h3>
+<form id="create-encounter" asp-action="Create" asp-controller="Encounter" data-ajax="true" data-ajax-mode="replace" data-ajax-update="#encounter-container" >
+    <div class="form-group">
+        @Html.LabelFor(e => e.Name)
+        @Html.TextBoxFor(e => e.Name, new { @class = "form-control" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(c => c.Notes)
+        @Html.TextAreaFor(c => c.Notes, new { @class = "form-control" })
+    </div>
+    <div class="form-group">
+        <button type="submit" class="btn btn-default">Create</button>
+    </div>
+</form>

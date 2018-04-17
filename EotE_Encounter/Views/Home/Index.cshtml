@@ -1,0 +1,52 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div id="encounter-wrapper" class="row">
+    @*iniative list*@
+    <div id="encounter-container" class="col-md-6 eote-container-style no-padding">
+        @{ await Html.RenderPartialAsync("~/Views/Encounter/Create.cshtml");}
+
+    </div>
+    @*info container*@
+    <div class="col-md-6">
+        @*character info*@
+        <div id="character-container" class="eote-container-style">
+
+        </div>
+        @*encounter notes*@
+        <div id="encounter-notes" class="eote-container-style">
+            @{ await Html.RenderPartialAsync("~/Views/Encounter/Notes.cshtml");}
+        </div>
+    </div>
+
+    @*about popup*@
+    <div id="about-popup" class="popup-container">
+        <div class="popup-content">
+            <div id="about-close" class="popup-close">
+                <span>&times;</span>
+            </div>
+            <h2>About</h2>
+            <p>
+                Star Wars - Encounters developed by
+                <a href="https://github.com/Addison-Dalton" target="_blank">Addison Dalton</a>
+                for the
+                <a href="https://www.fantasyflightgames.com/" target="_blank">Fantasy Flight Games'</a>
+                Star Wars Roleplaying Game.
+            </p>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    $("#about-close").click(function () {
+        console.log("working");
+        $("#about-popup").hide();
+
+    });
+
+    $("#about-popup").click(function () {
+        $("#about-popup").hide();
+    });
+</script>

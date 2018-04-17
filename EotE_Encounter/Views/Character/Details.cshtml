@@ -1,0 +1,135 @@
+﻿@model EotE_Encounter.Models.Character
+@{
+    List<SelectListItem> listItems = new List<SelectListItem>();
+    for (int i = 0; i <= 10; i++)
+    {
+        if (i == 0)
+        {
+            listItems.Add(new SelectListItem
+            {
+                Text = i.ToString(),
+                Value = i.ToString(),
+                Selected = true
+
+            });
+
+        }
+        else
+        {
+            listItems.Add(new SelectListItem
+            {
+                Text = i.ToString(),
+                Value = i.ToString()
+
+            });
+        }
+    }
+}
+<h3>Edit @Model.Name</h3>
+<form class="character-form" onsubmit="return validateForm()" asp-controller="Character" asp-action="Edit" data-ajax="false" data-ajax-mode="replace" data-ajax-update="#encounter-container">
+    <div class="form-group">
+        @Html.LabelFor(c => c.Name)
+        @Html.TextBoxFor(c => c.Name, new { @class = "form-control" })
+    </div>
+    <div class="form-group row">
+        <div class="col-sm-4">
+            @Html.LabelFor(c => c.Triumphs)
+            @Html.DropDownListFor(c => c.Triumphs, listItems, "Number of Triumphs", new { @class = "form-control" })
+        </div>
+        <div class="col-sm-4">
+            @Html.LabelFor(c => c.Succeses)
+            @Html.DropDownListFor(c => c.Succeses, listItems, "Number of Succeses", new { @class = "form-control" })
+        </div>
+        <div class="col-sm-4">
+            @Html.LabelFor(c => c.Advantages)
+            @Html.DropDownListFor(c => c.Advantages, listItems, "Number of Advantages", new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(c => c.Notes)
+        @Html.TextAreaFor(c => c.Notes, new { @rows=4, @class = "form-control textarea-disable-resize" })
+    </div>
+    <div>
+        @Html.HiddenFor(c => c.Id)
+    </div>
+    <div>
+        @Html.HiddenFor(c => c.IniativeScore)
+    </div>
+    <div>
+        @Html.HiddenFor(c => c.Turn)
+    </div>
+    <div>
+        <input type="hidden" id="encounterId" name="encounterId" value="@Model.EncounterId" />
+    </div>
+    <!--character form controls-->
+    <div class="btn-toolbar">
+        <button type="submit" class="btn btn-default">Edit</button>
+         <button type="button" class="btn btn-default cancel-btn">Cancel</button>
+        <a id="delete-character" class="btn btn-danger" asp-action="Delete" asp-controller="Character" asp-route-characterId="@Model.Id" data-ajax="false" data-ajax-mode="replace" data-ajax-update="#encounter-container" onclick="return confirmDelete()">
+            <span class="glyphicon glyphicon-remove-circle"></span> Delete
+        </a>
+    </div>
+
+</form>
+
+<script>
+    var formSubmitted = false;
+    var deleteConfirmed = false;
+    //validate that both name and at least one dice role has been entered
+    function validateForm() {
+        if ($("#Name").val() != "") {
+            formSubmitted = true;
+            $("form").attr("data-ajax", "true");
+            return true;
+
+        }
+        else {
+            $("#Name").addClass("alert-border")
+            return false;
+        }
+    }
+
+    //remove red alert border when name input is clicked again
+    $("#Name").on("click", function (elem) {
+        $("#Name").removeClass("alert-border");
+
+    });
+
+    //on form submission, if the form has been validated, set the character container to be empty.
+    $("form").submit(function () {
+        if (formSubmitted) {
+            $("#character-container").html("");
+
+        }
+    });
+
+    $(".cancel-btn").click(function (e) {
+        e.preventDefault();
+        $("#character-container").html("");
+
+    });
+
+    //prompt user for deleting character
+    function confirmDelete() {
+        if (confirm("Are you sure you want to delete @Model.Name?")) {
+            $("#delete-character").attr("data-ajax", "true");
+            deleteConfirmed = true;
+            return true;
+
+        } else {
+            return false;
+
+        }
+
+    }
+
+    //when the character has been deleted, set the character container to be empty 
+    $("#delete-character").click(function (e) {
+        e.preventDefault();
+        if (deleteConfirmed) {
+            $("#character-container").html("");
+
+        }
+    });
+
+</script>
