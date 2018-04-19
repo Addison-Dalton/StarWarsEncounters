@@ -4,7 +4,7 @@
 <h3 class="encounter-title">@Model.Name</h3>
 <div>
     <div id="iniative-list" class="list-group">
-        <a id="add-character-item" asp-action="CreateCharacter" asp-controller="Character" asp-route-encounterId="@Model.Id" data-ajax="true" data-ajax-mode="replace" data-ajax-update="#character-container" class="list-group-item"><strong>Add a new character</strong></a>
+        <a id="add-character-item" asp-action="CreateCharacter" asp-controller="Character" asp-route-encounterName="@Model.Name" asp-route-encounterCharacter="@Model.Characters" data-ajax="true" data-ajax-mode="replace" data-ajax-update="#character-container" class="list-group-item"><strong>Add a new character</strong></a>
         @{
             if (Model.Characters != null)
             {
@@ -15,13 +15,13 @@
                         <div class="list-group-item current-turn">
                             <div class="row">
                                 <div id="iniative-character-name" class="col-md-11">
-                                    <a asp-action="Details" asp-controller="Character" asp-route-characterId="@character.Id" data-ajax="true" data-ajax-mode="replace" data-ajax-update="#character-container" class="iniative-item"><h4>@character.Name</h4></a>
+                                    <a asp-action="Details" asp-controller="Character" asp-route-characterId="@character.Id" asp-route-encounter="@Model" data-ajax="true" data-ajax-mode="replace" data-ajax-update="#character-container" class="iniative-item"><h4>@character.Name</h4></a>
                                 </div>
                                 <div id="iniative-move-arrows" class="col-md-1">
-                                    <a asp-action="ChangeInitiative" asp-controller="Encounter" asp-route-characterId="@character.Id" asp-route-direction="up" data-ajax="true" data-ajax-mode="replace" data-ajax-update="#encounter-container">
+                                    <a asp-action="ChangeInitiative" asp-controller="Encounter" asp-route-characterId="@character.Id" asp-route-direction="up" asp-route-encounter="@Model" data-ajax="true" data-ajax-mode="replace" data-ajax-update="#encounter-container">
                                         <span class="glyphicon glyphicon-menu-up"></span>
                                     </a>
-                                    <a asp-action="ChangeInitiative" asp-controller="Encounter" asp-route-characterId="@character.Id" asp-route-direction="down" data-ajax="true" data-ajax-mode="replace" data-ajax-update="#encounter-container">
+                                    <a asp-action="ChangeInitiative" asp-controller="Encounter" asp-route-characterId="@character.Id" asp-route-direction="down" asp-route-encounter="@Model" data-ajax="true" data-ajax-mode="replace" data-ajax-update="#encounter-container">
                                         <span class="glyphicon glyphicon-menu-down display-block"></span>
                                     </a>
                                 </div>
@@ -34,7 +34,7 @@
                         <div class="list-group-item">
                             <div class="row">
                                 <div id="iniative-character-name" class="col-md-11">
-                                    <a asp-action="Details" asp-controller="Character" asp-route-characterId="@character.Id" data-ajax="true" data-ajax-mode="replace" data-ajax-update="#character-container" class="iniative-item"><h4>@character.Name</h4></a>
+                                    <a asp-action="Details" asp-controller="Character" asp-route-characterId="@character.Id" asp-route-encounter="@Model" data-ajax="true" data-ajax-mode="replace" data-ajax-update="#character-container" class="iniative-item"><h4>@character.Name</h4></a>
                                 </div>
                                 <div id="iniative-move-arrows" class="col-md-1">
                                     <a asp-action="ChangeInitiative" asp-controller="Encounter" asp-route-characterId="@character.Id" asp-route-direction="up" asp-route-encounter="@Model" data-ajax="true" data-ajax-mode="replace" data-ajax-update="#encounter-container">
@@ -53,10 +53,10 @@
     </div>
     <div class="row" id="encounter-controls">
         <div class="col-sm-2">
-            <a class="btn btn-default" asp-action="ChangeTurn" asp-controller="Character" asp-route-direction="prev" data-ajax="true" data-ajax-mode="replace" data-ajax-update="#encounter-container">Previous</a>
+            <a class="btn btn-default" asp-action="ChangeTurn" asp-controller="Character" asp-route-direction="prev" asp-route-encounter="@Model" data-ajax="true" data-ajax-mode="replace" data-ajax-update="#encounter-container">Previous</a>
         </div>
         <div class="col-sm-2">
-            <a class="btn btn-default" asp-action="ChangeTurn" asp-controller="Character" asp-route-direction="next" data-ajax="true" data-ajax-mode="replace" data-ajax-update="#encounter-container">Next</a>
+            <a class="btn btn-default" asp-action="ChangeTurn" asp-controller="Character" asp-route-direction="next" asp-route-encounter="@Model" data-ajax="true" data-ajax-mode="replace" data-ajax-update="#encounter-container">Next</a>
         </div>
         <div class="col-sm-offset-9">
             <a id ="clear-encounter" class="btn btn-danger" asp-action="Clear" asp-controller="Encounter" asp-route-encounter="@Model" data-ajax="false" data-ajax-mode="replace" data-ajax-update="#encounter-container" onclick="return confirmClear()">Clear Encounter</a>

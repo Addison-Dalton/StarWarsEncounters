@@ -10,91 +10,95 @@ namespace EotE_Encounter.Controllers
 {
     public class CharacterController : Controller
     {
-        private readonly EncounterContext _context;
 
-        public CharacterController(EncounterContext context)
+        public CharacterController()
         {
-            _context = context;
         }
 
-        public ActionResult CreateCharacter(int encounterId)
+        public ActionResult CreateCharacter(string encounterName, List<Character> encounterCharacters)
         {
-            ViewBag.EncounterId = encounterId;
+            Encounter encounter = new Encounter() { Name = encounterName, Characters = encounterCharacters };
+            ViewBag.EncounterName = encounter.Name;
+            ViewBag.EncounterCharacters = encounter.Characters;
             return PartialView("Add");
         }
         
-        public ActionResult Add(Character character, int encounterId)
+        public ActionResult Add(Character character, string encounterName, List<Character> encounterCharacters)
         {
             if (ModelState.IsValid)
             {
-                character.EncounterId = encounterId;
-                character.Encounter = _context.Encounters.Where(e => e.Id.Equals(encounterId)).SingleOrDefault();
                 character.SetIniativeScore();
+
                 //if added character has a greater iniativeScore than the current character with greatest iniativeScore, then set added character turn to true
 
-                if(_context.Characters.ToList().Count <= 0)
+                if(encounterCharacters.Count <= 0)
                 {
                     character.Turn = true;
+                    character.Id = 1;
                 }
                 else
                 {
-                    List<Character> characters = _context.Characters.ToList();
-                    if (character.IniativeScore > _context.Characters.OrderByDescending(c => c.IniativeScore).First().IniativeScore)
+                    //give new character an ID that is +1 of the current MAX id of the all the characters.
+                    character.Id = encounterCharacters.OrderByDescending(c => c.Id).FirstOrDefault().Id + 1;
+                    if (character.IniativeScore > encounterCharacters.OrderByDescending(c => c.IniativeScore).First().IniativeScore)
                     {
-                        foreach(Character characterInDB in characters)
+                        foreach(Character characterInEncounter in encounterCharacters)
                         {
-                            characterInDB.Turn = false;
+                            characterInEncounter.Turn = false;
                         }
                         character.Turn = true;
                     }
                 }
-                _context.Characters.Add(character);
-                _context.SaveChanges();
-                return RedirectToAction("Details", "Encounter", new {encounterId});
+                encounterCharacters.Add(character);
+
+                Encounter encounter = new Encounter() { Name = encounterName, Characters = encounterCharacters };
+                TempData["encounter"] = Newtonsoft.Json.JsonConvert.SerializeObject(encounter);
+                return RedirectToAction("Details", "Encounter", new {encounter = (Encounter) null });
             }
             return PartialView();
         }
 
 
-        public ActionResult Edit(Character character)
+        public ActionResult Edit(Character character, Encounter encounter)
         {
             if (ModelState.IsValid)
             {
-                Character oldCharacter = _context.Characters.Where(c => c.Id.Equals(character.Id)).SingleOrDefault();
-                
+                Character oldCharacter = encounter.Characters.Where(c => c.Id.Equals(character.Id)).SingleOrDefault();
+                var oldCharacterIndex = encounter.Characters.IndexOf(oldCharacter);
+                oldCharacter.Name = character.Name;
+                oldCharacter.Notes = character.Notes;
                 //if the number if triupmhs, successes, or advantages have changed, update the IniativeScore
-                if(oldCharacter.Triumphs != character.Triumphs || oldCharacter.Succeses != character.Succeses || oldCharacter.Advantages != character.Advantages)
+                if (oldCharacter.Triumphs != character.Triumphs || oldCharacter.Succeses != character.Succeses || oldCharacter.Advantages != character.Advantages)
                 {
-                    _context.Entry(oldCharacter).CurrentValues.SetValues(character);
+                    oldCharacter.Triumphs = character.Triumphs;
+                    oldCharacter.Succeses = character.Succeses;
+                    oldCharacter.Advantages = character.Advantages;
                     oldCharacter.SetIniativeScore();
-                    if (oldCharacter.IniativeScore >= _context.Characters.OrderByDescending(c => c.IniativeScore).First().IniativeScore)
+                    if (oldCharacter.IniativeScore >= encounter.Characters.OrderByDescending(c => c.IniativeScore).First().IniativeScore)
                     {
-                        _context.Characters.OrderByDescending(c => c.IniativeScore).First().Turn = false;
+                        encounter.Characters.OrderByDescending(c => c.IniativeScore).First().Turn = false;
                         oldCharacter.Turn = true;
                     }
                 }
-                else
-                {
-                    _context.Entry(oldCharacter).CurrentValues.SetValues(character);
-                }
-                _context.SaveChanges();
+                encounter.Characters[oldCharacterIndex] = oldCharacter;
 
-                return RedirectToAction("Details", "Encounter", new {encounterId = character.EncounterId });
+                return RedirectToAction("Details", "Encounter", encounter);
             }
             return PartialView("Details", character);
         }
 
-        public ActionResult Details(int characterId)
+        public ActionResult Details(int characterId, Encounter encounter)
         {
-            Character character = _context.Characters.Where(c => c.Id.Equals(characterId)).SingleOrDefault();
-            _context.Entry(character).Reload();
+            Character character = encounter.Characters.Where(c => c.Id.Equals(characterId)).SingleOrDefault();
+            ViewBag.Encounter = encounter;
+            //_context.Entry(character).Reload();
             return PartialView("Details", character);
         }
 
-        public ActionResult Delete(int characterId)
+        public ActionResult Delete(int characterId, Encounter encounter)
         {
-            Character character = _context.Characters.Where(c => c.Id == characterId).SingleOrDefault();
-            List<Character> characters = _context.Characters.ToList().OrderByDescending(c => c.IniativeScore).ToList();
+            Character character = encounter.Characters.Where(c => c.Id == characterId).SingleOrDefault();
+            List<Character> characters = encounter.Characters.ToList().OrderByDescending(c => c.IniativeScore).ToList();
             int characterIndex = characters.IndexOf(character);
 
             if(character.Turn == true)
@@ -109,17 +113,16 @@ namespace EotE_Encounter.Controllers
                 }
             }
 
-            _context.Characters.Remove(character);
-            _context.SaveChanges();
-            return RedirectToAction("Details", "Encounter", new { encounterId = character.EncounterId });
+            encounter.Characters.Remove(character);
+            return RedirectToAction("Details", "Encounter", encounter);
         }
 
-        public ActionResult ChangeTurn(string direction)
+        public ActionResult ChangeTurn(string direction, Encounter encounter)
         {
             const string NEXT = "next";
             const string PREV = "prev";
-            List<Character> characters = _context.Characters.OrderByDescending(c => c.IniativeScore).ToList();
-            Character currentTurnCharacter = _context.Characters.Where(c => c.Turn == true).SingleOrDefault();
+            List<Character> characters = encounter.Characters.OrderByDescending(c => c.IniativeScore).ToList();
+            Character currentTurnCharacter = encounter.Characters.Where(c => c.Turn == true).SingleOrDefault();
             currentTurnCharacter.Turn = false;
             int currentTurnCharacterIndex = characters.IndexOf(currentTurnCharacter);
             //previous turn
@@ -145,8 +148,8 @@ namespace EotE_Encounter.Controllers
                     characters.FirstOrDefault().Turn = true;
                 }
             }
-            _context.SaveChanges();
-            return RedirectToAction("Details", "Encounter", new { encounterId = currentTurnCharacter.EncounterId });
+            encounter.Characters = characters;
+            return RedirectToAction("Details", "Encounter", encounter);
         }
     }
 }

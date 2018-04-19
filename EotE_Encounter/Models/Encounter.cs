@@ -20,7 +20,7 @@ namespace EotE_Encounter.Models
         [StringLength(2000)]
         public string Notes { get; set; }
 
-        public List<Character> Characters { get; set; } //get this working
+        public List<Character> Characters { get; set; }
     }
 
 }

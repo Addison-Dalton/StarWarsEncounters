@@ -59,13 +59,13 @@
         @Html.HiddenFor(c => c.Turn)
     </div>
     <div>
-        <input type="hidden" id="encounterId" name="encounterId" value="@Model.EncounterId" />
+        <input type="hidden" id="encounter" name="encounter" value="@ViewBag.Encounter" />
     </div>
     <!--character form controls-->
     <div class="btn-toolbar">
         <button type="submit" class="btn btn-default">Edit</button>
          <button type="button" class="btn btn-default cancel-btn">Cancel</button>
-        <a id="delete-character" class="btn btn-danger" asp-action="Delete" asp-controller="Character" asp-route-characterId="@Model.Id" data-ajax="false" data-ajax-mode="replace" data-ajax-update="#encounter-container" onclick="return confirmDelete()">
+        <a id="delete-character" class="btn btn-danger" asp-action="Delete" asp-controller="Character" asp-route-characterId="@Model.Id" asp-route-encounter="@ViewBag.Encounter" data-ajax="false" data-ajax-mode="replace" data-ajax-update="#encounter-container" onclick="return confirmDelete()">
             <span class="glyphicon glyphicon-remove-circle"></span> Delete
         </a>
     </div>
