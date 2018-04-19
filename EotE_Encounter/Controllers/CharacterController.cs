@@ -15,20 +15,21 @@ namespace EotE_Encounter.Controllers
         {
         }
 
-        public ActionResult CreateCharacter(string encounterName, List<Character> encounterCharacters)
+        public ActionResult CreateCharacter(string encounterName, string encounterCharactersJSON)
         {
+            List<Character> encounterCharacters = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Character>>(encounterCharactersJSON);
             Encounter encounter = new Encounter() { Name = encounterName, Characters = encounterCharacters };
-            ViewBag.EncounterName = encounter.Name;
-            ViewBag.EncounterCharacters = encounter.Characters;
+            TempData["encounter"] = Newtonsoft.Json.JsonConvert.SerializeObject(encounter);
             return PartialView("Add");
         }
         
-        public ActionResult Add(Character character, string encounterName, List<Character> encounterCharacters)
+        public ActionResult Add(Character character)
         {
             if (ModelState.IsValid)
             {
+                Encounter encounter = Newtonsoft.Json.JsonConvert.DeserializeObject<Encounter>(TempData["encounter"].ToString());
                 character.SetIniativeScore();
-
+                List<Character> encounterCharacters = encounter.Characters;
                 //if added character has a greater iniativeScore than the current character with greatest iniativeScore, then set added character turn to true
 
                 if(encounterCharacters.Count <= 0)
@@ -51,9 +52,8 @@ namespace EotE_Encounter.Controllers
                 }
                 encounterCharacters.Add(character);
 
-                Encounter encounter = new Encounter() { Name = encounterName, Characters = encounterCharacters };
                 TempData["encounter"] = Newtonsoft.Json.JsonConvert.SerializeObject(encounter);
-                return RedirectToAction("Details", "Encounter", new {encounter = (Encounter) null });
+                return RedirectToAction("Details", "Encounter");
             }
             return PartialView();
         }

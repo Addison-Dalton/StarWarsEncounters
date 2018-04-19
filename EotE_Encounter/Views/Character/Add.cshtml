@@ -49,10 +49,6 @@
         @Html.LabelFor(c => c.Notes)
         @Html.TextAreaFor(c => c.Notes, new { @rows = 4, @class = "form-control textarea-disable-resize" })
     </div>
-    <div>
-        <input type="hidden" id="encounterName" name="encounterName" value="@ViewBag.EncounterName" />
-        <input type="hidden" id="encounterChracters" name="encounterCharacters" value="@ViewBag.EncounterCharacters" />
-    </div>
     <div class="btn-toolbar">
         <button type="submit" class="btn btn-default">Add</button>
         <button type="button" class="btn btn-default cancel-btn">Cancel</button>
