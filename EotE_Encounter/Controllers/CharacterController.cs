@@ -29,8 +29,8 @@ namespace EotE_Encounter.Controllers
                 Encounter encounter = Newtonsoft.Json.JsonConvert.DeserializeObject<Encounter>(TempData["encounter"].ToString());
                 character.SetIniativeScore();
                 List<Character> encounterCharacters = encounter.Characters;
-                //if added character has a greater iniativeScore than the current character with greatest iniativeScore, then set added character turn to true
-
+               
+                //if the encounter list is empty, set the character turn to true, and id of 1.
                 if(encounterCharacters.Count <= 0)
                 {
                     character.Turn = true;
@@ -40,6 +40,8 @@ namespace EotE_Encounter.Controllers
                 {
                     //give new character an ID that is +1 of the current MAX id of the all the characters.
                     character.Id = encounterCharacters.OrderByDescending(c => c.Id).FirstOrDefault().Id + 1;
+
+                    //if added character has a greater iniativeScore than the current character with greatest iniativeScore, then set added character turn to true
                     if (character.IniativeScore > encounterCharacters.OrderByDescending(c => c.IniativeScore).First().IniativeScore)
                     {
                         foreach(Character characterInEncounter in encounterCharacters)
@@ -50,7 +52,7 @@ namespace EotE_Encounter.Controllers
                     }
                 }
                 encounterCharacters.Add(character);
-
+                encounter.Characters = encounterCharacters.OrderByDescending(c => c.IniativeScore).ToList();
                 TempData["encounter"] = Newtonsoft.Json.JsonConvert.SerializeObject(encounter);
                 return RedirectToAction("Details", "Encounter");
             }
