@@ -122,10 +122,12 @@ namespace EotE_Encounter.Controllers
         }
 
         //deletes all characters from encounter
-        public ActionResult Clear(Encounter encounter)
+        public ActionResult Clear(string encounterJSON)
         {
+            Encounter encounter = Newtonsoft.Json.JsonConvert.DeserializeObject<Encounter>(encounterJSON);
             encounter.Characters.Clear();
-            return RedirectToAction("Details", encounter);
+            TempData["encounter"] = Newtonsoft.Json.JsonConvert.SerializeObject(encounter);
+            return RedirectToAction("Details");
 
         }
     }

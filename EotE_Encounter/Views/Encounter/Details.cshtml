@@ -59,7 +59,7 @@
             <a class="btn btn-default" asp-action="ChangeTurn" asp-controller="Character" asp-route-direction="next" asp-route-encounter="@Model" data-ajax="true" data-ajax-mode="replace" data-ajax-update="#encounter-container">Next</a>
         </div>
         <div class="col-sm-offset-9">
-            <a id ="clear-encounter" class="btn btn-danger" asp-action="Clear" asp-controller="Encounter" asp-route-encounter="@Model" data-ajax="false" data-ajax-mode="replace" data-ajax-update="#encounter-container" onclick="return confirmClear()">Clear Encounter</a>
+            <a id ="clear-encounter" class="btn btn-danger" asp-action="Clear" asp-controller="Encounter" asp-route-encounterJSON="@Json.Serialize(Model)" data-ajax="false" data-ajax-mode="replace" data-ajax-update="#encounter-container" onclick="return confirmClear()">Clear Encounter</a>
         </div>
     </div>
 </div>
