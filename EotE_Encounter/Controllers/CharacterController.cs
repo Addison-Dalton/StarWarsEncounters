@@ -59,10 +59,11 @@ namespace EotE_Encounter.Controllers
         }
 
 
-        public ActionResult Edit(Character character, Encounter encounter)
+        public ActionResult Edit(Character character, string encounterJSON)
         {
             if (ModelState.IsValid)
             {
+                Encounter encounter = Newtonsoft.Json.JsonConvert.DeserializeObject<Encounter>(encounterJSON);
                 Character oldCharacter = encounter.Characters.Where(c => c.Id.Equals(character.Id)).SingleOrDefault();
                 var oldCharacterIndex = encounter.Characters.IndexOf(oldCharacter);
                 oldCharacter.Name = character.Name;
@@ -81,17 +82,20 @@ namespace EotE_Encounter.Controllers
                     }
                 }
                 encounter.Characters[oldCharacterIndex] = oldCharacter;
-
-                return RedirectToAction("Details", "Encounter", encounter);
+                TempData["encounter"] = Newtonsoft.Json.JsonConvert.SerializeObject(encounter);
+                return RedirectToAction("Details", "Encounter");
             }
             return PartialView("Details", character);
         }
 
-        public ActionResult Details(int characterId, Encounter encounter)
+        public ActionResult Details(int characterId, string encounterName, string encounterCharactersJSON)
         {
+            List<Character> encounterCharacters = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Character>>(encounterCharactersJSON);
+            Encounter encounter = new Encounter() { Name = encounterName, Characters = encounterCharacters };
             Character character = encounter.Characters.Where(c => c.Id.Equals(characterId)).SingleOrDefault();
-            ViewBag.Encounter = encounter;
-            //_context.Entry(character).Reload();
+            ViewBag.EncounterName = encounter.Name;
+            ViewBag.EncounterCharacters = encounter.Characters;
+            TempData["encounter"] = Newtonsoft.Json.JsonConvert.SerializeObject(encounter);
             return PartialView("Details", character);
         }
 

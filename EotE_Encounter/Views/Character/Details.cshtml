@@ -59,7 +59,7 @@
         @Html.HiddenFor(c => c.Turn)
     </div>
     <div>
-        <input type="hidden" id="encounter" name="encounter" value="@ViewBag.Encounter" />
+        <input type="hidden" id="encounterJSON" name="encounterJSON" value="@TempData["encounter"].ToString()" />
     </div>
     <!--character form controls-->
     <div class="btn-toolbar">
