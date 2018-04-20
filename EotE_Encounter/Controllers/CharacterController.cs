@@ -99,8 +99,9 @@ namespace EotE_Encounter.Controllers
             return PartialView("Details", character);
         }
 
-        public ActionResult Delete(int characterId, Encounter encounter)
+        public ActionResult Delete(int characterId, string encounterJSON)
         {
+            Encounter encounter = Newtonsoft.Json.JsonConvert.DeserializeObject<Encounter>(encounterJSON);
             Character character = encounter.Characters.Where(c => c.Id == characterId).SingleOrDefault();
             List<Character> characters = encounter.Characters.ToList().OrderByDescending(c => c.IniativeScore).ToList();
             int characterIndex = characters.IndexOf(character);
@@ -118,7 +119,8 @@ namespace EotE_Encounter.Controllers
             }
 
             encounter.Characters.Remove(character);
-            return RedirectToAction("Details", "Encounter", encounter);
+            TempData["encounter"] = Newtonsoft.Json.JsonConvert.SerializeObject(encounter);
+            return RedirectToAction("Details", "Encounter");
         }
 
         public ActionResult ChangeTurn(string direction, Encounter encounter)
