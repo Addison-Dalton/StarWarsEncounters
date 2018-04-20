@@ -18,10 +18,10 @@
                                     <a asp-action="Details" asp-controller="Character" asp-route-characterId="@character.Id" asp-route-encounterJSON="@Json.Serialize(Model)" data-ajax="true" data-ajax-mode="replace" data-ajax-update="#character-container" class="iniative-item"><h4>@character.Name</h4></a>
                                 </div>
                                 <div id="iniative-move-arrows" class="col-md-1">
-                                    <a asp-action="ChangeInitiative" asp-controller="Encounter" asp-route-characterId="@character.Id" asp-route-direction="up" asp-route-encounter="@Model" data-ajax="true" data-ajax-mode="replace" data-ajax-update="#encounter-container">
+                                    <a asp-action="ChangeInitiative" asp-controller="Encounter" asp-route-characterId="@character.Id" asp-route-direction="up" asp-route-encounterJSON="@Json.Serialize(Model)" data-ajax="true" data-ajax-mode="replace" data-ajax-update="#encounter-container">
                                         <span class="glyphicon glyphicon-menu-up"></span>
                                     </a>
-                                    <a asp-action="ChangeInitiative" asp-controller="Encounter" asp-route-characterId="@character.Id" asp-route-direction="down" asp-route-encounter="@Model" data-ajax="true" data-ajax-mode="replace" data-ajax-update="#encounter-container">
+                                    <a asp-action="ChangeInitiative" asp-controller="Encounter" asp-route-characterId="@character.Id" asp-route-direction="down" asp-route-encounterJSON="@Json.Serialize(Model)" data-ajax="true" data-ajax-mode="replace" data-ajax-update="#encounter-container">
                                         <span class="glyphicon glyphicon-menu-down display-block"></span>
                                     </a>
                                 </div>
@@ -37,10 +37,10 @@
                                     <a asp-action="Details" asp-controller="Character" asp-route-characterId="@character.Id" asp-route-encounterJSON="@Json.Serialize(Model)" data-ajax="true" data-ajax-mode="replace" data-ajax-update="#character-container" class="iniative-item"><h4>@character.Name</h4></a>
                                 </div>
                                 <div id="iniative-move-arrows" class="col-md-1">
-                                    <a asp-action="ChangeInitiative" asp-controller="Encounter" asp-route-characterId="@character.Id" asp-route-direction="up" asp-route-encounter="@Model" data-ajax="true" data-ajax-mode="replace" data-ajax-update="#encounter-container">
+                                    <a asp-action="ChangeInitiative" asp-controller="Encounter" asp-route-characterId="@character.Id" asp-route-direction="up" asp-route-encounterJSON="@Json.Serialize(Model)" data-ajax="true" data-ajax-mode="replace" data-ajax-update="#encounter-container">
                                         <span class="glyphicon glyphicon-menu-up"></span>
                                     </a>
-                                    <a asp-action="ChangeInitiative" asp-controller="Encounter" asp-route-characterId="@character.Id" asp-route-direction="down" asp-route-encounter="@Model" data-ajax="true" data-ajax-mode="replace" data-ajax-update="#encounter-container">
+                                    <a asp-action="ChangeInitiative" asp-controller="Encounter" asp-route-characterId="@character.Id" asp-route-direction="down" asp-route-encounterJSON="@Json.Serialize(Model)" data-ajax="true" data-ajax-mode="replace" data-ajax-update="#encounter-container">
                                         <span class="glyphicon glyphicon-menu-down display-block"></span>
                                     </a>
                                 </div>

@@ -49,10 +49,11 @@ namespace EotE_Encounter.Controllers
          * It the character is at the top of the list, and moved up then the character is moved to the bottom of the list.
          * The opposite occurs if the character is at the bottom of the list.
          */
-        public ActionResult ChangeInitiative(int characterId, string direction, Encounter encounter)
+        public ActionResult ChangeInitiative(int characterId, string direction, string encounterJSON)
         {
             const string MOVE_UP = "up";
             const string MOVE_DOWN = "down";
+            Encounter encounter = Newtonsoft.Json.JsonConvert.DeserializeObject<Encounter>(encounterJSON);
             List<Character> characters = encounter.Characters.OrderByDescending(c => c.IniativeScore).ToList();
             Character movedCharacter = encounter.Characters.Where(c => c.Id == characterId).SingleOrDefault();
 
@@ -116,7 +117,8 @@ namespace EotE_Encounter.Controllers
                 }
             }
             encounter.Characters = characters;
-            return RedirectToAction("Details", encounter);
+            TempData["encounter"] = Newtonsoft.Json.JsonConvert.SerializeObject(encounter);
+            return RedirectToAction("Details");
         }
 
         //deletes all characters from encounter
