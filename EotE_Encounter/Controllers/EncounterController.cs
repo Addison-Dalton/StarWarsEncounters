@@ -40,6 +40,7 @@ namespace EotE_Encounter.Controllers
             if(encounter.Name == null)
             {
                 encounter = Newtonsoft.Json.JsonConvert.DeserializeObject<Encounter>(TempData["encounter"].ToString());
+                encounter.Characters = encounter.Characters.OrderByDescending(c => c.IniativeScore).ToList();
             }
             return PartialView("Details", encounter);
         }
