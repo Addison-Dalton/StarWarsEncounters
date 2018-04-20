@@ -123,10 +123,11 @@ namespace EotE_Encounter.Controllers
             return RedirectToAction("Details", "Encounter");
         }
 
-        public ActionResult ChangeTurn(string direction, Encounter encounter)
+        public ActionResult ChangeTurn(string direction, string encounterJSON)
         {
             const string NEXT = "next";
             const string PREV = "prev";
+            Encounter encounter = Newtonsoft.Json.JsonConvert.DeserializeObject<Encounter>(encounterJSON);
             List<Character> characters = encounter.Characters.OrderByDescending(c => c.IniativeScore).ToList();
             Character currentTurnCharacter = encounter.Characters.Where(c => c.Turn == true).SingleOrDefault();
             currentTurnCharacter.Turn = false;
@@ -155,7 +156,8 @@ namespace EotE_Encounter.Controllers
                 }
             }
             encounter.Characters = characters;
-            return RedirectToAction("Details", "Encounter", encounter);
+            TempData["encounter"] = Newtonsoft.Json.JsonConvert.SerializeObject(encounter);
+            return RedirectToAction("Details", "Encounter");
         }
     }
 }
