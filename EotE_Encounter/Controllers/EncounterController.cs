@@ -27,8 +27,8 @@ namespace EotE_Encounter.Controllers
             {
                 encounter.Name = "Encounter";
             }
-
-            return RedirectToAction("Details", encounter);
+            TempData["encounter"] = Newtonsoft.Json.JsonConvert.SerializeObject(encounter);
+            return RedirectToAction("Details");
         }
 
         /* gets the encounter from db based on encounterId.
@@ -37,11 +37,10 @@ namespace EotE_Encounter.Controllers
          */
         public ActionResult Details(Encounter encounter)
         {
-            if(encounter.Name == null)
-            {
-                encounter = Newtonsoft.Json.JsonConvert.DeserializeObject<Encounter>(TempData["encounter"].ToString());
-                encounter.Characters = encounter.Characters.OrderByDescending(c => c.IniativeScore).ToList();
-            }
+
+            encounter = Newtonsoft.Json.JsonConvert.DeserializeObject<Encounter>(TempData["encounter"].ToString());
+            encounter.Characters = encounter.Characters.OrderByDescending(c => c.IniativeScore).ToList();
+
             return PartialView("Details", encounter);
         }
 
