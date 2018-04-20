@@ -15,10 +15,9 @@ namespace EotE_Encounter.Controllers
         {
         }
 
-        public ActionResult CreateCharacter(string encounterName, string encounterCharactersJSON)
+        public ActionResult CreateCharacter(string encounterJSON)
         {
-            List<Character> encounterCharacters = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Character>>(encounterCharactersJSON);
-            Encounter encounter = new Encounter() { Name = encounterName, Characters = encounterCharacters };
+            Encounter encounter = Newtonsoft.Json.JsonConvert.DeserializeObject<Encounter>(encounterJSON);
             TempData["encounter"] = Newtonsoft.Json.JsonConvert.SerializeObject(encounter);
             return PartialView("Add");
         }
@@ -88,10 +87,9 @@ namespace EotE_Encounter.Controllers
             return PartialView("Details", character);
         }
 
-        public ActionResult Details(int characterId, string encounterName, string encounterCharactersJSON)
+        public ActionResult Details(int characterId, string encounterJSON)
         {
-            List<Character> encounterCharacters = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Character>>(encounterCharactersJSON);
-            Encounter encounter = new Encounter() { Name = encounterName, Characters = encounterCharacters };
+            Encounter encounter = Newtonsoft.Json.JsonConvert.DeserializeObject<Encounter>(encounterJSON);
             Character character = encounter.Characters.Where(c => c.Id.Equals(characterId)).SingleOrDefault();
             ViewBag.EncounterName = encounter.Name;
             ViewBag.EncounterCharacters = encounter.Characters;

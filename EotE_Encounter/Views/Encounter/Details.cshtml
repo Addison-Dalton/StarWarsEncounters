@@ -4,7 +4,7 @@
 <h3 class="encounter-title">@Model.Name</h3>
 <div>
     <div id="iniative-list" class="list-group">
-        <a id="add-character-item" asp-action="CreateCharacter" asp-controller="Character" asp-route-encounterName="@Model.Name" asp-route-encounterCharactersJSON="@Json.Serialize(Model.Characters)" data-ajax="true" data-ajax-mode="replace" data-ajax-update="#character-container" class="list-group-item"><strong>Add a new character</strong></a>
+        <a id="add-character-item" asp-action="CreateCharacter" asp-controller="Character" asp-route-encounterJSON="@Json.Serialize(Model)" data-ajax="true" data-ajax-mode="replace" data-ajax-update="#character-container" class="list-group-item"><strong>Add a new character</strong></a>
         @{
             if (Model.Characters != null)
             {
@@ -15,7 +15,7 @@
                         <div class="list-group-item current-turn">
                             <div class="row">
                                 <div id="iniative-character-name" class="col-md-11">
-                                    <a asp-action="Details" asp-controller="Character" asp-route-characterId="@character.Id" asp-route-encounterName="@Model.Name" asp-route-encounterCharactersJSON="@Json.Serialize(Model.Characters)" data-ajax="true" data-ajax-mode="replace" data-ajax-update="#character-container" class="iniative-item"><h4>@character.Name</h4></a>
+                                    <a asp-action="Details" asp-controller="Character" asp-route-characterId="@character.Id" asp-route-encounterJSON="@Json.Serialize(Model)" data-ajax="true" data-ajax-mode="replace" data-ajax-update="#character-container" class="iniative-item"><h4>@character.Name</h4></a>
                                 </div>
                                 <div id="iniative-move-arrows" class="col-md-1">
                                     <a asp-action="ChangeInitiative" asp-controller="Encounter" asp-route-characterId="@character.Id" asp-route-direction="up" asp-route-encounter="@Model" data-ajax="true" data-ajax-mode="replace" data-ajax-update="#encounter-container">
@@ -34,7 +34,7 @@
                         <div class="list-group-item">
                             <div class="row">
                                 <div id="iniative-character-name" class="col-md-11">
-                                    <a asp-action="Details" asp-controller="Character" asp-route-characterId="@character.Id" asp-route-encounterName="@Model.Name" asp-route-encounterCharactersJSON="@Json.Serialize(Model.Characters)" data-ajax="true" data-ajax-mode="replace" data-ajax-update="#character-container" class="iniative-item"><h4>@character.Name</h4></a>
+                                    <a asp-action="Details" asp-controller="Character" asp-route-characterId="@character.Id" asp-route-encounterJSON="@Json.Serialize(Model)" data-ajax="true" data-ajax-mode="replace" data-ajax-update="#character-container" class="iniative-item"><h4>@character.Name</h4></a>
                                 </div>
                                 <div id="iniative-move-arrows" class="col-md-1">
                                     <a asp-action="ChangeInitiative" asp-controller="Encounter" asp-route-characterId="@character.Id" asp-route-direction="up" asp-route-encounter="@Model" data-ajax="true" data-ajax-mode="replace" data-ajax-update="#encounter-container">
