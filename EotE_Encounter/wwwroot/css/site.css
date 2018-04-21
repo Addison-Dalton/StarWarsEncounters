@@ -97,6 +97,13 @@ a:hover{
     padding-bottom: 0;
 }
 
+.selected-character {
+    -webkit-box-shadow: 0 0 10px 1px #4f8cef;
+    -moz-box-shadow: 0 0 10px 1px #4f8cef;
+    box-shadow: 0 0 10px 1px #4f8cef;
+    z-index: 25;
+}
+
 .display-block{
     display: block;
 }
@@ -132,10 +139,8 @@ a:hover{
 }
 
 .current-turn {
-    -webkit-box-shadow: 0 0 10px 1px #4f8cef;
-    -moz-box-shadow: 0 0 10px 1px #4f8cef;
-    box-shadow: 0 0 10px 1px #4f8cef;
-    z-index: 25;
+    border-left: solid 10px #571C0E;
+    padding-left: 6px;
 }
 #character-container h3 {
     margin-top: 0;

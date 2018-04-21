@@ -77,4 +77,16 @@
         }
 
     }
+
+    //adds and removes the class that highlights the currently selected character
+    //but do not add the highlight to the 'add character' list item/button
+    $(".list-group-item").click(function () {
+        $(".selected-character").removeClass("selected-character");
+
+        if (this.id != "add-character-item") {
+            $(this).addClass("selected-character");
+
+        }
+
+    });
 </script>
