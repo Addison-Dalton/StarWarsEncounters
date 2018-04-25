@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using EotE_Encounter.Models;
-using EotE_Encounter.Data;
 using Microsoft.EntityFrameworkCore;
 
 namespace EotE_Encounter.Controllers
