@@ -81,24 +81,19 @@
 
     }
 
-    //adds and removes the class that highlights the currently selected character
-    //but do not add the highlight to the 'add character' list item/button
-    $(".list-group-item").click(function () {
-        $(".selected-character").removeClass("selected-character");
 
-        if (this.id != "add-character-item") {
-            $(this).addClass("selected-character");
 
-        }
-
-    });
-
-    //the following two click listeners will add the bottom colored bar to the character container
-    //when a character is being added or editted.
+    //when a character in the encounter list is clicked, they become highlighted,
+    //show the bottom bar on the character container for editting the character
+    //remove highlight from previous selected character
     $(".iniative-item").click(function () {
+        $(".selected-character").removeClass("selected-character");
         $("#character-container").addClass("bottom-colored-bar");
+        $(this).parents(".list-group-item").addClass("selected-character");
 
     });
+
+    //add the bottom bar to the character container when adding a character
     $("#add-character-item").click(function () {
         $("#character-container").addClass("bottom-colored-bar");
     });
