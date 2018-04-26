@@ -99,6 +99,7 @@
     $("form").submit(function () {
         if (formSubmitted) {
             $("#character-container").html("");
+            $("#character-container").removeClass("bottom-colored-bar");
 
         }
     });
@@ -107,7 +108,7 @@
         e.preventDefault();
         $("#character-container").html("");
         $(".selected-character").removeClass("selected-character");
-
+        $("#character-container").removeClass("bottom-colored-bar");
     });
 
     //prompt user for deleting character
@@ -129,7 +130,7 @@
         e.preventDefault();
         if (deleteConfirmed) {
             $("#character-container").html("");
-
+            $("#character-container").removeClass("bottom-colored-bar");
         }
     });
 

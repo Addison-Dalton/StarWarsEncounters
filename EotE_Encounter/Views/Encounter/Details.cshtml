@@ -69,6 +69,7 @@
     function confirmClear() {
         if (confirm("Are you sure you want to clear @Model.Name?")) {
             $("#clear-encounter").attr("data-ajax", "true");
+            $("#character-container").html("").removeClass("bottom-colored-bar");
             return true;
 
         } else {
@@ -81,6 +82,10 @@
     //adds and removes the class that highlights the currently selected character
     //but do not add the highlight to the 'add character' list item/button
     $(".list-group-item").click(function () {
+        //add the colored bottom bar to the character container
+        console.log(this);
+        //$("#character-container").addClass("bottom-colored-bar");
+
         $(".selected-character").removeClass("selected-character");
 
         if (this.id != "add-character-item") {
@@ -88,5 +93,14 @@
 
         }
 
+    });
+
+    $(".iniative-item").click(function () {
+        $("#character-container").addClass("bottom-colored-bar");
+
+    });
+
+    $("#add-character-item").click(function () {
+        $("#character-container").addClass("bottom-colored-bar");
     });
 </script>

@@ -74,6 +74,7 @@
     $("form").submit(function () {
         if (formSubmitted) {
             $("#character-container").html("");
+            $("#character-container").removeClass("bottom-colored-bar");
         }
     });
 
@@ -86,6 +87,7 @@
     $(".cancel-btn").click(function (e) {
         e.preventDefault();
         $("#character-container").html("");
+        $("#character-container").removeClass("bottom-colored-bar");
 
     });
 
