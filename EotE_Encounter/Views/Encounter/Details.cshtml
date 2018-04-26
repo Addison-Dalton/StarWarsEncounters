@@ -66,6 +66,8 @@
 
 <script>
     //prompt user for clearing the encounter
+    //sets the character container to empty in the event a character was selected when the encounter was cleared
+    //also removes the bottom bar of the character container for the same reason.
     function confirmClear() {
         if (confirm("Are you sure you want to clear @Model.Name?")) {
             $("#clear-encounter").attr("data-ajax", "true");
@@ -82,10 +84,6 @@
     //adds and removes the class that highlights the currently selected character
     //but do not add the highlight to the 'add character' list item/button
     $(".list-group-item").click(function () {
-        //add the colored bottom bar to the character container
-        console.log(this);
-        //$("#character-container").addClass("bottom-colored-bar");
-
         $(".selected-character").removeClass("selected-character");
 
         if (this.id != "add-character-item") {
@@ -95,11 +93,12 @@
 
     });
 
+    //the following two click listeners will add the bottom colored bar to the character container
+    //when a character is being added or editted.
     $(".iniative-item").click(function () {
         $("#character-container").addClass("bottom-colored-bar");
 
     });
-
     $("#add-character-item").click(function () {
         $("#character-container").addClass("bottom-colored-bar");
     });

@@ -54,6 +54,15 @@ namespace EotE_Encounter.Controllers
             const string MOVE_DOWN = "down";
             Encounter encounter = Newtonsoft.Json.JsonConvert.DeserializeObject<Encounter>(encounterJSON);
             List<Character> characters = encounter.Characters.OrderByDescending(c => c.IniativeScore).ToList();
+
+            //if there is one character in the encounter, don't do anything...just return the encounter as is
+            //we don't need to change the initiative of one person
+            if (characters.Count <= 1)
+            {
+                TempData["encounter"] = Newtonsoft.Json.JsonConvert.SerializeObject(encounter);
+                return RedirectToAction("Details", "Encounter");
+            }
+
             Character movedCharacter = encounter.Characters.Where(c => c.Id == characterId).SingleOrDefault();
 
             //move character up

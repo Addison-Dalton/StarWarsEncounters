@@ -122,12 +122,20 @@ namespace EotE_Encounter.Controllers
             return RedirectToAction("Details", "Encounter");
         }
 
+        //called when you want to change the turn to the next or previous character in the initiative order
         public ActionResult ChangeTurn(string direction, string encounterJSON)
         {
             const string NEXT = "next";
             const string PREV = "prev";
             Encounter encounter = Newtonsoft.Json.JsonConvert.DeserializeObject<Encounter>(encounterJSON);
             List<Character> characters = encounter.Characters.OrderByDescending(c => c.IniativeScore).ToList();
+
+            //if there is no one in the encounter, don't do anything...just return the empty encounter
+            if(characters.Count < 1)
+            {
+                TempData["encounter"] = Newtonsoft.Json.JsonConvert.SerializeObject(encounter);
+                return RedirectToAction("Details", "Encounter");
+            }
             Character currentTurnCharacter = encounter.Characters.Where(c => c.Turn == true).SingleOrDefault();
             currentTurnCharacter.Turn = false;
             int currentTurnCharacterIndex = characters.IndexOf(currentTurnCharacter);
